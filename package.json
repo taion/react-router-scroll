@@ -1,0 +1,30 @@
+{
+  "name": "react-router-scroll",
+  "version": "0.0.0",
+  "description": "React Router scroll management",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taion/react-router-scroll.git"
+  },
+  "keywords": [
+    "react",
+    "react router",
+    "scroll"
+  ],
+  "author": "Jimmy Jia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taion/react-router-scroll/issues"
+  },
+  "homepage": "https://github.com/taion/react-router-scroll#readme",
+  "peerDependencies": {
+    "react-router": ">=2.3.0"
+  }
+}
