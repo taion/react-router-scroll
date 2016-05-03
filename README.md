@@ -6,17 +6,15 @@ React Router scroll management.
 
 ```js
 import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
-import createUseScroll from 'react-router-scroll';
+import useScroll from 'react-router-scroll';
 
 /* ... */
-
-const { history, useScroll } = createUseScroll(browserHistory);
 
 ReactDOM.render(
   <Router
     history={history}
     routes={routes}
-    render={applyRouterMiddleware(useScroll)}
+    render={applyRouterMiddleware(useScroll())}
   />,
   container
 );
@@ -33,11 +31,11 @@ $ npm i -S react-router-scroll
 
 ### Basic usage
 
-Call `createUseScroll` with your history object. This will return another object with `history` and `useScroll` properties. Pass the returned `history` object into `<Router>` (or further extend it as needed), and use the returned `useScroll` object with `applyRouterMiddleware`.
+Apply the `useScroll` router middleware, as in the example above.
 
 ### Custom scroll behavior
 
-You can provide a custom `shouldUpdateScroll` callback to `createUseScroll`. This callback is called with both the previous and the current router props.
+You can provide a custom `shouldUpdateScroll` callback to `useScroll`. This callback is called with both the previous and the current router props.
 
 You can return:
 
@@ -46,11 +44,11 @@ You can return:
 - a truthy value to get normal scroll behavior
 
 ```js
-createUseScroll(history, ({ location: prevLocation }, { location }) => (
+useScroll(({ location: prevLocation }, { location }) => (
   location.pathname !== prevLocation.pathname
 ));
 
-createUseScroll(history, prevRouterProps, { routes }) => {
+useScroll((prevRouterProps, { routes }) => {
   if (routes.some(route => route.ignoreScrollBehavior)) {
     return false;
   }
@@ -61,13 +59,6 @@ createUseScroll(history, prevRouterProps, { routes }) => {
 
   return true;
 });
-```
-
-If you are using scroll-behavior directly, you can also pass in a separate scroll behavior history extender instead of the default `withStandardScroll` to `createUseScroll`, with or without a `shouldUpdateScroll` callback as desired.
-
-```js
-createUseScroll(history, null, withScrollToTop);
-createUseScroll(history, shouldUpdateScroll, withScrollToTop);
 ```
 
 [npm-badge]: https://img.shields.io/npm/v/react-router-scroll.svg
