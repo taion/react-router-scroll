@@ -1,6 +1,6 @@
 # react-router-scroll [![npm][npm-badge]][npm]
 
-React Router scroll management.
+[React Router](https://github.com/reactjs/react-router) scroll management.
 
 ## Usage
 
