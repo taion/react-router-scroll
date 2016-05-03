@@ -1,4 +1,4 @@
-# react-router-scroll [![npm][npm-badge]][npm]
+# react-router-scroll [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 
 React Router scroll management.
 
@@ -12,7 +12,7 @@ import useScroll from 'react-router-scroll';
 
 ReactDOM.render(
   <Router
-    history={history}
+    history={browserHistory}
     routes={routes}
     render={applyRouterMiddleware(useScroll())}
   />,
@@ -35,7 +35,7 @@ Apply the `useScroll` router middleware, as in the example above.
 
 ### Custom scroll behavior
 
-You can provide a custom `shouldUpdateScroll` callback to `useScroll`. This callback is called with both the previous and the current router props.
+You can provide a custom `shouldUpdateScroll` callback as an argument to `useScroll`. This callback is called with both the previous and the current router props.
 
 You can return:
 
@@ -60,6 +60,9 @@ useScroll((prevRouterProps, { routes }) => {
   return true;
 });
 ```
+
+[build-badge]: https://img.shields.io/travis/taion/react-router-scroll/master.svg
+[build]: https://travis-ci.org/taion/react-router-scroll
 
 [npm-badge]: https://img.shields.io/npm/v/react-router-scroll.svg
 [npm]: https://www.npmjs.org/package/react-router-scroll
