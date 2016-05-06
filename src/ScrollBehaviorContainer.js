@@ -13,7 +13,7 @@ export default class ScrollBehaviorContainer extends React.Component {
 
     this.scrollBehavior = new ScrollBehavior(
       routerProps.router,
-      () => this.props.routerProps.location.key
+      () => this.props.routerProps.location
     );
 
     this.onUpdate(null, routerProps);
@@ -41,7 +41,9 @@ export default class ScrollBehaviorContainer extends React.Component {
     if (!shouldUpdateScroll) {
       scrollPosition = true;
     } else {
-      scrollPosition = shouldUpdateScroll(prevRouterProps, routerProps);
+      scrollPosition = shouldUpdateScroll.call(
+        this.scrollBehavior, prevRouterProps, routerProps
+      );
     }
 
     this.scrollBehavior.updateScroll(scrollPosition);
