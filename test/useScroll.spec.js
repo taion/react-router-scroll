@@ -12,6 +12,13 @@ import useScroll from '../src';
 import { asyncRoutes, syncRoutes } from './fixtures';
 import run, { delay } from './run';
 
+function createHashHistoryWithoutKey() {
+  // Avoid persistence of stored data from previous tests.
+  window.sessionStorage.clear();
+
+  return createHashHistory({ queryKey: false });
+}
+
 describe('useScroll', () => {
   let container;
 
@@ -31,6 +38,7 @@ describe('useScroll', () => {
   [
     createBrowserHistory,
     createHashHistory,
+    createHashHistoryWithoutKey,
   ].forEach(createHistory => {
     let history;
 
@@ -72,7 +80,16 @@ describe('useScroll', () => {
           });
 
           it('should support custom behavior', done => {
+            let prevPosition;
+            let position;
+
             function shouldUpdateScroll(prevRouterState, routerState) {
+              if (prevRouterState) {
+                prevPosition = this.readPosition(prevRouterState.location);
+              }
+
+              position = this.readPosition(routerState.location);
+
               if (prevRouterState === null) {
                 return [10, 20];
               }
@@ -93,19 +110,30 @@ describe('useScroll', () => {
               () => {
                 expect(scrollLeft(window)).to.equal(10);
                 expect(scrollTop(window)).to.equal(20);
+
                 scrollTop(window, 15000);
+
                 delay(() => history.push('/page2'));
               },
               () => {
+                expect(prevPosition).to.eql([10, 15000]);
+                expect(position).to.not.exist;
+
                 expect(scrollLeft(window)).to.not.equal(0);
                 expect(scrollTop(window)).to.not.equal(0);
+
                 scrollLeft(window, 0);
                 scrollTop(window, 0);
+
                 delay(() => history.goBack());
               },
               () => {
+                expect(prevPosition).to.eql([0, 0]);
+                expect(position).to.eql([10, 15000]);
+
                 expect(scrollLeft(window)).to.equal(10);
                 expect(scrollTop(window)).to.equal(15000);
+
                 done();
               },
             ];
