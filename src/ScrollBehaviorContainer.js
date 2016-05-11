@@ -23,7 +23,7 @@ export default class ScrollBehaviorContainer extends React.Component {
     const { routerProps } = this.props;
     const prevRouterProps = prevProps.routerProps;
 
-    if(routerProps.location === prevRouterProps.location || (routerProps.location.hash !== prevRouterProps.location.hash && routerProps.location.pathname === prevRouterProps.location.pathname)) {
+    if (routerProps.location === prevRouterProps.location || (routerProps.location.hash !== prevRouterProps.location.hash && routerProps.location.pathname === prevRouterProps.location.pathname)) {
       return;
     }
 
