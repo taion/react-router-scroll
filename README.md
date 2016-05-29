@@ -44,8 +44,8 @@ You can return:
 - a truthy value to get normal scroll behavior
 
 ```js
-useScroll(({ location: prevLocation }, { location }) => (
-  location.pathname !== prevLocation.pathname
+useScroll((prevRouterProps, { location }) => (
+  prevRouterProps && location.pathname !== prevRouterProps.location.pathname
 ));
 
 useScroll((prevRouterProps, { routes }) => {
