@@ -1,4 +1,4 @@
 import 'babel-polyfill';
 
-const testsContext = require.context('.', true, /\.spec\.js$/);
+const testsContext = require.context('.', true, /\.test\.js$/);
 testsContext.keys().forEach(testsContext);
