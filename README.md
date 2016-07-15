@@ -2,6 +2,8 @@
 
 [React Router](https://github.com/reactjs/react-router) scroll management.
 
+react-router-scroll is a React Router middleware that adds scroll management using [scroll-behavior](https://github.com/taion/scroll-behavior). By default, the middleware adds browser-style scroll behavior, but you can customize it to scroll however you want on route transitions.
+
 ## Usage
 
 ```js
