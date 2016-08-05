@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ScrollBehaviorContainer from './ScrollBehaviorContainer';
+import ScrollContainer from './ScrollContainer';
 
 export default function useScroll(shouldUpdateScroll) {
   return {
@@ -14,3 +15,5 @@ export default function useScroll(shouldUpdateScroll) {
     ),
   };
 }
+
+export { ScrollContainer };

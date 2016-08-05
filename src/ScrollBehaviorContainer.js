@@ -1,20 +1,41 @@
-import React from 'react';
+import { Component, PropTypes } from 'react';
 import ScrollBehavior from 'scroll-behavior/lib/ScrollBehavior';
 
-export default class ScrollBehaviorContainer extends React.Component {
+export default class ScrollBehaviorContainer extends Component {
   static propTypes = {
-    shouldUpdateScroll: React.PropTypes.func,
-    routerProps: React.PropTypes.object.isRequired,
-    children: React.PropTypes.node.isRequired,
+    shouldUpdateScroll: PropTypes.func,
+    routerProps: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
-  componentDidMount() {
+  static childContextTypes = {
+    scrollBehavior: PropTypes.instanceOf(ScrollBehavior),
+  };
+
+  constructor() {
+    super();
+
+    this.state = {
+      scrollBehavior: null,
+    };
+  }
+
+  getChildContext() {
+    return {
+      scrollBehavior: this.scrollBehavior,
+    };
+  }
+
+  componentWillMount() {
     const { routerProps } = this.props;
 
     this.scrollBehavior = new ScrollBehavior(
       routerProps.router,
       () => this.props.routerProps.location
     );
+
+    // Set state so child context will be updated
+    this.setState({ scrollBehavior: this.scrollBehavior });
 
     this.onUpdate(null, routerProps);
   }
@@ -37,16 +58,18 @@ export default class ScrollBehaviorContainer extends React.Component {
   onUpdate(prevRouterProps, routerProps) {
     const { shouldUpdateScroll } = this.props;
 
-    let scrollPosition;
-    if (!shouldUpdateScroll) {
-      scrollPosition = true;
-    } else {
-      scrollPosition = shouldUpdateScroll.call(
-        this.scrollBehavior, prevRouterProps, routerProps
-      );
-    }
+    this.scrollBehavior.getContainerKeys().forEach(containerKey => {
+      let scrollPosition;
+      if (!shouldUpdateScroll) {
+        scrollPosition = true;
+      } else {
+        scrollPosition = shouldUpdateScroll.call(
+          this.scrollBehavior, prevRouterProps, routerProps, containerKey
+        );
+      }
 
-    this.scrollBehavior.updateScroll(scrollPosition);
+      this.scrollBehavior.updateScroll(containerKey, scrollPosition);
+    });
   }
 
   render() {
