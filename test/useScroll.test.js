@@ -7,17 +7,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyRouterMiddleware, Router, useRouterHistory } from 'react-router';
 
-import useScroll from '../src';
+import useScroll from '../src/useScroll';
 
-import { asyncRoutes, syncRoutes } from './fixtures';
+import { asyncRoutes, createHashHistoryWithoutKey, syncRoutes }
+  from './fixtures';
 import run, { delay } from './run';
-
-function createHashHistoryWithoutKey() {
-  // Avoid persistence of stored data from previous tests.
-  window.sessionStorage.clear();
-
-  return createHashHistory({ queryKey: false });
-}
 
 describe('useScroll', () => {
   let container;
