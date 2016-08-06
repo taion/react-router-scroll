@@ -3,8 +3,6 @@ const webpack = require('webpack');
 module.exports = config => {
   const { env } = process;
 
-  const isCi = env.CONTINUOUS_INTEGRATION === 'true';
-
   config.set({
     frameworks: ['mocha'],
 
@@ -23,6 +21,7 @@ module.exports = config => {
       plugins: [
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify('test'),
+          __DEV__: true,
         }),
       ],
       devtool: 'cheap-module-inline-source-map',
@@ -46,7 +45,5 @@ module.exports = config => {
     },
 
     browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome', 'Firefox'],
-
-    singleRun: isCi,
   });
 };

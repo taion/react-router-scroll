@@ -1,6 +1,9 @@
 {
   "extends": "airbnb",
   "parser": "babel-eslint",
+  "globals": {
+    "__DEV__": false
+  },
   "rules": {
     "max-len": [2, 79]
   }

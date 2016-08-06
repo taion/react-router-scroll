@@ -6,9 +6,9 @@ react-router-scroll is a React Router middleware that adds scroll management usi
 
 ## Usage
 
-```js
+```jsx
 import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
-import useScroll from 'react-router-scroll';
+import { useScroll } from 'react-router-scroll';
 
 /* ... */
 
@@ -45,7 +45,7 @@ You can return:
 - a position array such as `[0, 100]` to scroll to that position
 - a truthy value to get normal scroll behavior
 
-```js
+```jsx
 useScroll((prevRouterProps, { location }) => (
   prevRouterProps && location.pathname !== prevRouterProps.location.pathname
 ));
@@ -62,6 +62,43 @@ useScroll((prevRouterProps, { routes }) => {
   return true;
 });
 ```
+
+### Scrolling elements other than `window`
+
+Use `<ScrollContainer>` to manage the scroll behavior of elements other than `window`. Each `<ScrollContainer>` must be given a unique `scrollKey`, and can be given an optional `shouldUpdateScroll` callback that behaves as above.
+
+```jsx
+import { ScrollContainer } from 'react-router-scroll';
+
+function Page() {
+  /* ... */
+
+  return (
+    <ScrollContainer
+      scrollKey={scrollKey}
+      shouldUpdateScroll={shouldUpdateScroll}
+    >
+      <MyScrollableComponent />
+    </ScrollContainer>
+  );
+}
+```
+
+`<ScrollContainer>` does not support on-the-fly changes to `scrollKey` or to the DOM node for its child.
+
+### Notes
+
+#### Minimizing bundle size
+
+If you are not using `<ScrollContainer>`, you can reduce your bundle size by importing the `useScroll` module directly.
+
+```jsx
+import useScroll from 'react-router-scroll/lib/useScroll';
+```
+
+#### Server rendering
+
+Do not apply the `useScroll` middleware when rendering on a server. You may use `<ScrollContainer>` in server-rendered components, however, as it will do nothing when rendering on a server.
 
 [build-badge]: https://img.shields.io/travis/taion/react-router-scroll/master.svg
 [build]: https://travis-ci.org/taion/react-router-scroll
