@@ -4,5 +4,5 @@
     "stage-1",
     "react"
   ],
-  "plugins": ["add-module-exports"]
+  "plugins": ["dev-expression", "add-module-exports"]
 }
