@@ -2,7 +2,12 @@
   "env": {
     "mocha": true
   },
+  "globals": {
+    "expect": false
+  },
   "rules": {
-    "no-unused-expressions": 0
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": true
+    }]
   }
 }

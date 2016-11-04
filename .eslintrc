@@ -1,10 +1,9 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
+  "extends": "4catalyzer-react",
+  "env": {
+    "browser": true
+  },
   "globals": {
     "__DEV__": false
-  },
-  "rules": {
-    "max-len": [2, 79]
   }
 }

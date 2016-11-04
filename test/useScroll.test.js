@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import scrollLeft from 'dom-helpers/query/scrollLeft';
 import scrollTop from 'dom-helpers/query/scrollTop';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
@@ -7,10 +6,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyRouterMiddleware, Router, useRouterHistory } from 'react-router';
 
+import StateStorage from '../src/StateStorage';
 import useScroll from '../src/useScroll';
 
-import { asyncRoutes, createHashHistoryWithoutKey, syncRoutes }
-  from './fixtures';
+import { createHashHistoryWithoutKey } from './histories';
+import { asyncRoutes, syncRoutes } from './routes';
 import run, { delay } from './run';
 
 describe('useScroll', () => {
@@ -33,7 +33,7 @@ describe('useScroll', () => {
     createBrowserHistory,
     createHashHistory,
     createHashHistoryWithoutKey,
-  ].forEach(createHistory => {
+  ].forEach((createHistory) => {
     let history;
 
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('useScroll', () => {
         ['asyncRoutes', asyncRoutes],
       ].forEach(([routesName, routes]) => {
         describe(routesName, () => {
-          it('should have correct default behavior', done => {
+          it('should have correct default behavior', (done) => {
             const steps = [
               () => {
                 scrollTop(window, 15000);
@@ -73,16 +73,18 @@ describe('useScroll', () => {
             );
           });
 
-          it('should support custom behavior', done => {
+          it('should support custom behavior', (done) => {
             let prevPosition;
             let position;
 
             function shouldUpdateScroll(prevRouterState, routerState) {
+              const stateStorage = new StateStorage(routerState.router);
+
               if (prevRouterState) {
-                prevPosition = this.readPosition(prevRouterState.location);
+                prevPosition = stateStorage.read(prevRouterState.location);
               }
 
-              position = this.readPosition(routerState.location);
+              position = stateStorage.read(routerState.location);
 
               if (prevRouterState === null) {
                 return [10, 20];
@@ -111,7 +113,7 @@ describe('useScroll', () => {
               },
               () => {
                 expect(prevPosition).to.eql([10, 15000]);
-                expect(position).to.not.exist;
+                expect(position).to.not.exist();
 
                 expect(scrollLeft(window)).to.not.equal(0);
                 expect(scrollTop(window)).to.not.equal(0);
@@ -139,7 +141,7 @@ describe('useScroll', () => {
                 render={applyRouterMiddleware(useScroll(shouldUpdateScroll))}
                 onUpdate={run(steps)}
               />,
-              container
+              container,
             );
           });
         });

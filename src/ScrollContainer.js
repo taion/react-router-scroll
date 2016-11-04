@@ -27,33 +27,32 @@ class ScrollContainer extends React.Component {
   componentDidMount() {
     this.context.scrollBehavior.registerElement(
       this.props.scrollKey,
-      ReactDOM.findDOMNode(this),
-      this.shouldUpdateScroll
+      ReactDOM.findDOMNode(this), // eslint-disable-line react/no-find-dom-node
+      this.shouldUpdateScroll,
     );
 
     // Only keep around the current DOM node in development, as this is only
     // for emitting the appropriate warning.
     if (__DEV__) {
-      this.domNode = ReactDOM.findDOMNode(this);
+      this.domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
     }
   }
 
   componentWillReceiveProps(nextProps) {
     warning(
       nextProps.scrollKey === this.props.scrollKey,
-      'ScrollContainer: <ScrollContainer> does not support changing scrollKey.'
+      '<ScrollContainer> does not support changing scrollKey.',
     );
   }
 
   componentDidUpdate() {
     if (__DEV__) {
       const prevDomNode = this.domNode;
-      this.domNode = ReactDOM.findDOMNode(this);
+      this.domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
 
       warning(
         this.domNode === prevDomNode,
-        'ScrollContainer: <ScrollContainer> does not support changing DOM ' +
-        'node.'
+        '<ScrollContainer> does not support changing DOM node.',
       );
     }
   }
@@ -68,11 +67,11 @@ class ScrollContainer extends React.Component {
       return true;
     }
 
-    // Hack to allow accessing scrollBehavior.readPosition().
+    // Hack to allow accessing scrollBehavior._stateStorage.
     return shouldUpdateScroll.call(
       this.context.scrollBehavior.scrollBehavior,
       prevRouterProps,
-      routerProps
+      routerProps,
     );
   };
 
