@@ -1,5 +1,7 @@
 import React from 'react';
-import ScrollBehavior from 'scroll-behavior/lib/ScrollBehavior';
+import ScrollBehavior from 'scroll-behavior';
+
+import StateStorage from './StateStorage';
 
 const propTypes = {
   shouldUpdateScroll: React.PropTypes.func,
@@ -16,12 +18,14 @@ class ScrollBehaviorContext extends React.Component {
     super(props, context);
 
     const { routerProps } = props;
+    const { router } = routerProps;
 
-    this.scrollBehavior = new ScrollBehavior(
-      routerProps.router,
-      () => this.props.routerProps.location,
-      this.shouldUpdateScroll,
-    );
+    this.scrollBehavior = new ScrollBehavior({
+      addTransitionHook: router.listenBefore,
+      stateStorage: new StateStorage(router),
+      getCurrentLocation: () => this.props.routerProps.location,
+      shouldUpdateScroll: this.shouldUpdateScroll,
+    });
 
     this.scrollBehavior.updateScroll(null, routerProps);
   }
@@ -53,15 +57,15 @@ class ScrollBehaviorContext extends React.Component {
       return true;
     }
 
-    // Hack to allow accessing scrollBehavior.readPosition().
+    // Hack to allow accessing scrollBehavior._stateStorage.
     return shouldUpdateScroll.call(
-      this.scrollBehavior, prevRouterProps, routerProps
+      this.scrollBehavior, prevRouterProps, routerProps,
     );
   };
 
   registerElement = (key, element, shouldUpdateScroll) => {
     this.scrollBehavior.registerElement(
-      key, element, shouldUpdateScroll, this.props.routerProps
+      key, element, shouldUpdateScroll, this.props.routerProps,
     );
   };
 

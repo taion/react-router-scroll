@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import scrollTop from 'dom-helpers/query/scrollTop';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import createHashHistory from 'history/lib/createHashHistory';
@@ -9,9 +8,9 @@ import { applyRouterMiddleware, Router, useRouterHistory } from 'react-router';
 import useScroll from '../src/useScroll';
 import ScrollContainer from '../src/ScrollContainer';
 
-import {
-  createElementRoutes, createHashHistoryWithoutKey, ScrollableComponent,
-} from './fixtures';
+import { ScrollableComponent } from './components';
+import { createHashHistoryWithoutKey } from './histories';
+import { createElementRoutes } from './routes';
 import run from './run';
 
 describe('<ScrollContainer>', () => {
@@ -34,7 +33,7 @@ describe('<ScrollContainer>', () => {
     createBrowserHistory,
     createHashHistory,
     createHashHistoryWithoutKey,
-  ].forEach(createHistory => {
+  ].forEach((createHistory) => {
     let history;
 
     beforeEach(() => {
@@ -42,7 +41,7 @@ describe('<ScrollContainer>', () => {
     });
 
     describe(createHistory.name, () => {
-      it('should have correct default behavior', done => {
+      it('should have correct default behavior', (done) => {
         const Page = () => (
           <ScrollContainer scrollKey="container">
             <ScrollableComponent />
@@ -71,11 +70,11 @@ describe('<ScrollContainer>', () => {
             render={applyRouterMiddleware(useScroll(() => false))}
             onUpdate={run(steps)}
           />,
-          container
+          container,
         );
       });
 
-      it('should have support custom behavior', done => {
+      it('should have support custom behavior', (done) => {
         const Page = () => (
           <ScrollContainer
             scrollKey="container"
@@ -107,7 +106,7 @@ describe('<ScrollContainer>', () => {
             render={applyRouterMiddleware(useScroll(() => false))}
             onUpdate={run(steps)}
           />,
-          container
+          container,
         );
       });
     });
