@@ -19,12 +19,14 @@ class ScrollBehaviorContext extends React.Component {
     super(props, context);
 
     const { routerProps } = props;
-    const { router } = routerProps;
+    const { router, location } = routerProps;
+
+    this.location = location;
 
     this.scrollBehavior = new ScrollBehavior({
       addTransitionHook: router.listenBefore,
       stateStorage: new StateStorage(router),
-      getCurrentLocation: () => this.props.routerProps.location,
+      getCurrentLocation: () => this.location,
       shouldUpdateScroll: this.shouldUpdateScroll,
     });
 
@@ -46,6 +48,7 @@ class ScrollBehaviorContext extends React.Component {
     }
 
     updateScroll(() => {
+      this.location = routerProps.location;
       this.scrollBehavior.updateScroll(prevRouterProps, routerProps);
     });
   }
