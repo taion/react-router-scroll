@@ -9,6 +9,8 @@ react-router-scroll is a React Router middleware that adds scroll management usi
 ```js
 import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
+import ReactDOM from 'react-dom';
+
 
 /* ... */
 
