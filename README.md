@@ -1,12 +1,12 @@
 # react-router-scroll [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 
-## NOTE: No support for react-router 4.0.0!
-
-This library does not support versions of react-router >4.0.0 because it has no concept of router middlewares. There are currently no plans to suppor this. See [issue](https://github.com/taion/react-router-scroll/issues/52). You can only use this library for earlier versions of react-router like ^2 and ^3. See [react-router docs](https://reacttraining.com/react-router/web/guides/scroll-restoration) for their rationale on scroll management in react-router ^4.
-
 [React Router](https://github.com/reactjs/react-router) scroll management.
 
 react-router-scroll is a React Router middleware that adds scroll management using [scroll-behavior](https://github.com/taion/scroll-behavior). By default, the middleware adds browser-style scroll behavior, but you can customize it to scroll however you want on route transitions.
+
+## NOTE: No support for React Router v4
+
+This library does not currently support React Router v4, because React Router v4 has no concept of router middlewares. See ongoing discussion in [#52](https://github.com/taion/react-router-scroll/issues/52). For an interim solution for just scrolling to top on navigation, see the [React Router documentation on scroll restoration](https://reacttraining.com/react-router/web/guides/scroll-restoration).
 
 ## Usage
 
