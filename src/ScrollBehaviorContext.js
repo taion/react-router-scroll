@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ScrollBehavior from 'scroll-behavior';
 
 import StateStorage from './StateStorage';
 
 const propTypes = {
-  shouldUpdateScroll: React.PropTypes.func,
-  routerProps: React.PropTypes.object.isRequired,
-  children: React.PropTypes.element.isRequired,
+  shouldUpdateScroll: PropTypes.func,
+  routerProps: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 const childContextTypes = {
-  scrollBehavior: React.PropTypes.object.isRequired,
+  scrollBehavior: PropTypes.object.isRequired,
 };
 
 class ScrollBehaviorContext extends React.Component {

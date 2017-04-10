@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/taion/react-router-scroll#readme",
   "dependencies": {
+    "prop-types": "^15.5.6",
     "scroll-behavior": "^0.9.1",
     "warning": "^3.0.0"
   },
@@ -69,8 +70,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
     "mocha": "^3.1.2",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react": "^15.5.3",
+    "react-dom": "^15.5.3",
     "react-router": "^2.8.1",
     "rimraf": "^2.5.4",
     "sinon": "^1.17.6",
