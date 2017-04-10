@@ -47,6 +47,7 @@ The callback can return:
 
 - a falsy value to suppress updating the scroll position
 - a position array of `x` and `y`, such as `[0, 100]`, to scroll to that position
+- a string with the `id` or `name` of an element, to scroll to that element
 - a truthy value to emulate the browser default scroll behavior
 
 ```js
