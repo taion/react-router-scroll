@@ -5,6 +5,7 @@ import StateStorage from './StateStorage';
 
 const propTypes = {
   shouldUpdateScroll: React.PropTypes.func,
+  updateScroll: React.PropTypes.func,
   routerProps: React.PropTypes.object.isRequired,
   children: React.PropTypes.element.isRequired,
 };
@@ -18,12 +19,14 @@ class ScrollBehaviorContext extends React.Component {
     super(props, context);
 
     const { routerProps } = props;
-    const { router } = routerProps;
+    const { router, location } = routerProps;
+
+    this.location = location;
 
     this.scrollBehavior = new ScrollBehavior({
       addTransitionHook: router.listenBefore,
       stateStorage: new StateStorage(router),
-      getCurrentLocation: () => this.props.routerProps.location,
+      getCurrentLocation: () => this.location,
       shouldUpdateScroll: this.shouldUpdateScroll,
     });
 
@@ -37,14 +40,17 @@ class ScrollBehaviorContext extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { routerProps } = this.props;
+    const { routerProps, updateScroll } = this.props;
     const prevRouterProps = prevProps.routerProps;
 
     if (routerProps.location === prevRouterProps.location) {
       return;
     }
 
-    this.scrollBehavior.updateScroll(prevRouterProps, routerProps);
+    updateScroll(() => {
+      this.location = routerProps.location;
+      this.scrollBehavior.updateScroll(prevRouterProps, routerProps);
+    });
   }
 
   componentWillUnmount() {
