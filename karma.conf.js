@@ -14,8 +14,8 @@ module.exports = (config) => {
 
     webpack: {
       module: {
-        loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+        rules: [
+          { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
         ],
       },
       plugins: [

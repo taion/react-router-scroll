@@ -69,7 +69,7 @@ describe('useScroll', () => {
                 render={applyRouterMiddleware(useScroll())}
                 onUpdate={run(steps)}
               />,
-              container
+              container,
             );
           });
 
