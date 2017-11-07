@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ScrollBehavior from 'scroll-behavior';
 
 import StateStorage from './StateStorage';
 
 const propTypes = {
   shouldUpdateScroll: PropTypes.func,
+  createScrollBehavior: PropTypes.func.isRequired,
   routerProps: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired,
 };
@@ -21,7 +21,7 @@ class ScrollBehaviorContext extends React.Component {
     const { routerProps } = props;
     const { router } = routerProps;
 
-    this.scrollBehavior = new ScrollBehavior({
+    this.scrollBehavior = props.createScrollBehavior({
       addTransitionHook: router.listenBefore,
       stateStorage: new StateStorage(router),
       getCurrentLocation: () => this.props.routerProps.location,
