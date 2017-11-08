@@ -5,6 +5,7 @@ import createHashHistory from 'history/lib/createHashHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyRouterMiddleware, Router, useRouterHistory } from 'react-router';
+import ScrollBehavior from 'scroll-behavior';
 
 import StateStorage from '../src/StateStorage';
 import useScroll from '../src/useScroll';
@@ -139,6 +140,74 @@ describe('useScroll', () => {
                 history={history}
                 routes={routes}
                 render={applyRouterMiddleware(useScroll(shouldUpdateScroll))}
+                onUpdate={run(steps)}
+              />,
+              container,
+            );
+          });
+
+          it('should support a custom scroll behavior factory', (done) => {
+            class MyScrollBehavior extends ScrollBehavior {
+              scrollToTarget() {
+                window.scrollTo(0, 50);
+              }
+            }
+
+            const steps = [
+              () => {
+                history.push('/page2');
+              },
+              () => {
+                expect(scrollTop(window)).to.equal(50);
+
+                done();
+              },
+            ];
+
+            ReactDOM.render(
+              <Router
+                history={history}
+                routes={routes}
+                render={applyRouterMiddleware(useScroll({
+                  createScrollBehavior: config => new MyScrollBehavior(config),
+                }))}
+                onUpdate={run(steps)}
+              />,
+              container,
+            );
+          });
+
+          it('should support fully custom behavior', (done) => {
+            class MyScrollBehavior extends ScrollBehavior {
+              scrollToTarget(element, target) {
+                element.scrollTo(20, target[1] + 10);
+              }
+            }
+
+            function shouldUpdateScroll() {
+              return [0, 50];
+            }
+
+            const steps = [
+              () => {
+                history.push('/page2');
+              },
+              () => {
+                expect(scrollLeft(window)).to.equal(20);
+                expect(scrollTop(window)).to.equal(60);
+
+                done();
+              },
+            ];
+
+            ReactDOM.render(
+              <Router
+                history={history}
+                routes={routes}
+                render={applyRouterMiddleware(useScroll({
+                  createScrollBehavior: config => new MyScrollBehavior(config),
+                  shouldUpdateScroll,
+                }))}
                 onUpdate={run(steps)}
               />,
               container,

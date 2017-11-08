@@ -66,6 +66,15 @@ useScroll((prevRouterProps, { routes }) => {
 });
 ```
 
+You can customize `useScroll` even further by providing a configuration object with a `createScrollBehavior` callback that creates the scroll behavior object. This allows using a custom subclass of `ScrollBehavior` from scroll-behavior with custom logic. When using a configuration object, you can specify the `shouldUpdateScroll` callback as above under the `shouldUpdateScroll` key.
+
+```js
+useScroll({
+  createScrollBehavior: (config) => new MyScrollBehavior(config),
+  shouldUpdateScroll,
+});
+```
+
 ### Scrolling elements other than `window`
 
 Use `<ScrollContainer>` in components rendered by a router with the `useScroll` middleware to manage the scroll behavior of elements other than `window`. Each `<ScrollContainer>` must be given a unique `scrollKey`, and can be given an optional `shouldUpdateScroll` callback that behaves as above.
