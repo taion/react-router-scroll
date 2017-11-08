@@ -1,6 +1,6 @@
 {
   "name": "react-router-scroll",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "React Router scroll management",
   "files": [
     "lib"
