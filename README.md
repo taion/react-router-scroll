@@ -50,7 +50,7 @@ The callback can return:
 
 ```js
 useScroll((prevRouterProps, { location }) => (
-  prevRouterProps && location.pathname !== prevRouterProps.location.pathname
+  !prevRouterProps || location.pathname !== prevRouterProps.location.pathname
 ));
 
 useScroll((prevRouterProps, { routes }) => {
